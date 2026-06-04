@@ -1,0 +1,455 @@
+html_content = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2027 제주 들불축제 개최 기획안 보고</title>
+<style>
+    /* 기본 초기화 및 박스 모델 설정 */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', '맑은 고딕', sans-serif;
+        color: #111111;
+        line-height: 1.6;
+        background-color: #f8fafc;
+        padding: 40px 20px;
+    }
+
+    /* 문서 전체 컨테이너 (A4 비율 및 스타일링) */
+    .report-container {
+        max-width: 840px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 30mm 25mm;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        position: relative;
+    }
+
+    /* 상단 헤더 영역 (결재란 배치용 테이블 구조) */
+    .header-table {
+        width: 100%;
+        margin-bottom: 40px;
+        border-collapse: collapse;
+        border: none;
+    }
+    
+    .header-table td {
+        border: none;
+        vertical-align: top;
+    }
+    
+    .meta-info {
+        font-size: 11pt;
+        color: #475569;
+        vertical-align: bottom !important;
+        text-align: left;
+        padding-bottom: 5px;
+    }
+
+    /* 결재란 스타일 */
+    .approval-box {
+        text-align: right;
+    }
+    
+    .approval-table {
+        border-collapse: collapse;
+        display: inline-table;
+        border: 1.5px solid #1e293b;
+    }
+    
+    .approval-table td {
+        border: 1px solid #1e293b;
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .app-dept {
+        width: 25px;
+        background-color: #f1f5f9;
+        font-size: 9.5pt;
+        font-weight: bold;
+        color: #1e293b;
+        padding: 8px 4px;
+        line-height: 1.3;
+    }
+    
+    .app-title {
+        width: 80px;
+        height: 26px;
+        background-color: #f8fafc;
+        font-size: 10pt;
+        font-weight: bold;
+        color: #334155;
+    }
+    
+    .app-sign {
+        height: 65px;
+        background-color: #ffffff;
+    }
+
+    /* 문서 메인 제목 */
+    .report-title {
+        font-size: 24pt;
+        font-weight: 800;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 50px;
+        padding: 18px 0;
+        border-top: 3px double #0f172a;
+        border-bottom: 3px double #0f172a;
+        color: #1e3a8a;
+        letter-spacing: 2px;
+    }
+
+    /* 공공기관 스타일 일련 기호 및 제목 정의 */
+    h1 {
+        font-size: 15pt;
+        font-weight: bold;
+        color: #1e3a8a;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        border-left: 5px solid #1e3a8a;
+        padding-left: 12px;
+        letter-spacing: -0.5px;
+    }
+    
+    h2 {
+        font-size: 12.5pt;
+        font-weight: bold;
+        color: #334155;
+        margin-top: 22px;
+        margin-bottom: 10px;
+        padding-left: 5px;
+    }
+
+    /* 본문 텍스트 구조 */
+    p {
+        font-size: 11pt;
+        margin: 8px 0;
+        color: #0f172a;
+        padding-left: 5px;
+    }
+
+    /* 개조식 구조 커스텀 리스트 */
+    .bullet-l1 {
+        list-style: none;
+        padding-left: 5px;
+        font-weight: bold;
+        margin-top: 14px;
+        font-size: 11.5pt;
+        color: #1e293b;
+    }
+    .bullet-l1::before {
+        content: "❑ ";
+        color: #1e3a8a;
+        margin-right: 6px;
+    }
+    
+    .bullet-l2 {
+        list-style: none;
+        padding-left: 22px;
+        margin-top: 6px;
+        font-size: 11pt;
+        font-weight: normal;
+        color: #334155;
+    }
+    .bullet-l2::before {
+        content: "○ ";
+        font-weight: bold;
+        margin-right: 6px;
+    }
+    
+    .bullet-l3 {
+        list-style: none;
+        padding-left: 40px;
+        margin-top: 5px;
+        font-size: 10.5pt;
+        color: #475569;
+    }
+    .bullet-l3::before {
+        content: "－ ";
+        margin-right: 4px;
+    }
+
+    /* 세부 내용 표 스타일링 */
+    table.budget-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 10pt;
+        border-top: 2px solid #1e3a8a;
+        border-bottom: 2px solid #64748b;
+    }
+    
+    table.budget-table th {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        font-weight: bold;
+        border: 1px solid #cbd5e1;
+        padding: 10px 8px;
+        text-align: center;
+    }
+    
+    table.budget-table td {
+        border: 1px solid #cbd5e1;
+        padding: 9px 8px;
+        color: #334155;
+        vertical-align: middle;
+    }
+    
+    /* 테이블 배경 격행 구분 */
+    table.budget-table tr.row-even {
+        background-color: #f8fafc;
+    }
+    
+    table.budget-table tr.row-total {
+        background-color: #eff6ff;
+        font-weight: bold;
+    }
+    
+    table.budget-table tr.row-total td {
+        color: #1e3a8a;
+        border-top: 1.5px solid #1e3a8a;
+    }
+
+    /* 정렬 및 강조 유틸리티 클래스 */
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .font-bold { font-weight: bold; }
+    
+    /* 인쇄 지시자 및 화면 최적화 */
+    @media print {
+        body {
+            background-color: #ffffff;
+            padding: 0;
+        }
+        .report-container {
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            max-width: 100%;
+        }
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="report-container">
+    
+    <table class="header-table">
+        <tr>
+            <td class="meta-info">
+                분류번호: 관광-2026-07<br>
+                보고일자: 2026. 06. 04.
+            </td>
+            <td class="approval-box">
+                <table class="approval-table">
+                    <tr>
+                        <td rowspan="2" class="app-dept">결<br><br>재</td>
+                        <td class="app-title">주무관</td>
+                        <td class="app-title">팀장</td>
+                        <td class="app-title">과장</td>
+                    </tr>
+                    <tr>
+                        <td class="app-sign"></td>
+                        <td class="app-sign"></td>
+                        <td class="app-sign"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="report-title">
+        2027 제주 들불축제 개최 기획안
+    </div>
+
+    <h1>1. 행사 개요</h1>
+    <ul>
+        <li class="bullet-l1">행 사 명: 2027 제주 들불축제</li>
+        <li class="bullet-l1">기    간: 2027. 3. 10.(수) ~ 3. 12.(금) [2박 3일]</li>
+        <li class="bullet-l1">장    소: 제주시 애월읍 새별오름 일원</li>
+        <li class="bullet-l1">소요예산: 금 1,400백만 원 (일반회계 14억 원)</li>
+        <li class="bullet-l1">주요내용: 오름 들불 짚이기, 디지털 미디어 파사드, 군집 드론쇼 및 가족 친화형 문화 체험 행사</li>
+    </ul>
+
+    <h1>2. 추진 배경 및 필요성</h1>
+    <ul>
+        <li class="bullet-l1">전통 문화의 고유 가치 계승 및 글로벌 축제 도약</li>
+        <li class="bullet-l2">제주 고유의 목축문화인 '방애' 풍습을 현대적으로 재해석하여 독창적인 문화 자산 보존</li>
+        <li class="bullet-l2">야간 불 짚이기 행사를 고도화하여 제주의 대표적 글로벌 핵심 랜드마크 축제로 육성</li>
+        
+        <li class="bullet-l1">야간 가치 극대화를 위한 신기술(ICT) 융합 콘텐츠 확충</li>
+        <li class="bullet-l2">새별오름 지형을 입체적으로 활용한 초대형 디지털 미디어 파사드 상영으로 시각적 몰입감 제공</li>
+        <li class="bullet-l2">대규모 군집 드론 라이트쇼 연출을 통해 야간 체류형 관광객 유치 및 지역 상권 활성화 유도</li>
+        
+        <li class="bullet-l1">가족 단위 수용력 강화 및 지속 가능한 친환경 축제 구현</li>
+        <li class="bullet-l2">어린이부터 노년층까지 세대 불문 동참할 수 있는 상생·공감형 체험 인프라 확충</li>
+        <li class="bullet-l2">반려동물 동반 인구 증가 트렌드를 반영한 편의시설을 연계하여 다변화된 도민·관광객 니즈 충족</li>
+    </ul>
+
+    <h1>3. 주요 프로그램 구성계획</h1>
+    
+    <h2>가. [야간] 메인 특화 이벤트 (Night Festa)</h2>
+    <ul>
+        <li class="bullet-l2">새별오름 메인 불 짚이기 행사 (3월 12일 야간 메인 연출)</li>
+        <li class="bullet-l3">철저한 첨단 안전 소방 레이어 구축 하에 전통 방식의 오름 전면 대형 점화식 거행</li>
+        <li class="bullet-l2">오름 미디어 파사드 및 디지털 연출</li>
+        <li class="bullet-l3">오름 능선부 경사면 전체를 대형 스크린화하여 제주의 탄생 설화 및 자연 친화 미디어 아트 상영</li>
+        <li class="bullet-l2">1,000대 규모 첨단 군집 드론 라이트쇼</li>
+        <li class="bullet-l3">오름 야간 상공에서 디지털 불꽃과 제주의 미래 비전을 표현하는 고도화된 군집 비행 제어 연출</li>
+    </ul>
+
+    <h2>나. [주간] 세대 공감 가족형 참여 프로그램</h2>
+    <ul>
+        <li class="bullet-l2">가족 화합형 친환경 에코 달집 만들기</li>
+        <li class="bullet-l3">가족이 함께 친환경 억새 자재를 이용한 미니 달집을 제작하고 소원지를 부착하는 상생 프로그램</li>
+        <li class="bullet-l2">반려동물 동반 가구(Pet-Friendly) 특화 구역 운영</li>
+        <li class="bullet-l3">축제장 내 펫 전용 쉼터, 안전 산책로 및 친환경 놀이 기구(어질리티) 구역 독립 배정</li>
+        <li class="bullet-l2">새별오름 자연 생태 스토리텔링 도슨트 투어</li>
+        <li class="bullet-l3">해설사와 함께 새별오름 일대를 탐방하며 들불축제의 기원과 생태 가치를 학습하는 교육형 콘텐츠</li>
+    </ul>
+
+    <h2>다. 홍보 및 대외 소통 다각화</h2>
+    <ul>
+        <li class="bullet-l2">친근한 동물 마스코트 캐릭터를 활용한 축제 브랜딩 및 현장 포토존 운영</li>
+        <li class="bullet-l2">행사 일정, 셔틀 노선, 아티스트 라인업 정보를 직관적으로 담은 4~5장 규모의 고품질 카드뉴스 사전 배포</li>
+    </ul>
+
+    <h1>4. 세부 예산 집행 계획 (단위: 백만 원)</h1>
+    <table class="budget-table">
+        <thead>
+            <tr>
+                <th style="width: 22%;">대과목</th>
+                <th style="width: 28%;">세부 항목(산출 내역)</th>
+                <th style="width: 18%;">예산액(백만 원)</th>
+                <th style="width: 32%;">비고 / 주요 운용 목적</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="font-bold text-center" rowspan="3">행사장 기반 조성</td>
+                <td>메인 특설 무대 및 관람석 설치</td>
+                <td class="text-right">120</td>
+                <td>개막식 및 문화공연용 시스템 무대 구축</td>
+            </tr>
+            <tr class="row-even">
+                <td>가족 체험존 및 운영 부스 임차</td>
+                <td class="text-right">60</td>
+                <td>체험 프로그램용 텐트, 테이블 등 집기</td>
+            </tr>
+            <tr>
+                <td>기반 인프라(전력, 조명, 음향) 구축</td>
+                <td class="text-right">70</td>
+                <td>넓은 새별오름 부지 내 전원 시스템 안정화</td>
+            </tr>
+            
+            <tr class="row-even">
+                <td class="font-bold text-center" rowspan="3">야간 특화 연출</td>
+                <td>새별오름 불 짚이기 연출 자재비</td>
+                <td class="text-right">100</td>
+                <td>친환경 목재, 점화 설비 및 불꽃 특수효과</td>
+            </tr>
+            <tr>
+                <td>고광량 미디어 파사드 영상 제작·운영</td>
+                <td class="text-right">150</td>
+                <td>대형 프로젝터 임차 및 프로젝션 맵핑 연출</td>
+            </tr>
+            <tr class="row-even">
+                <td>1,000대 군집 드론 라이트쇼 제어</td>
+                <td class="text-right">200</td>
+                <td>드론 라이트쇼 시스템 기획 및 연출 운영비</td>
+            </tr>
+            
+            <tr>
+                <td class="font-bold text-center" rowspan="3">프로그램 운영</td>
+                <td>가족 참여형 프로그램 자재·강사료</td>
+                <td class="text-right">80</td>
+                <td>달집 만들기 등 체험 재료 및 도슨트 운영</td>
+            </tr>
+            <tr class="row-even">
+                <td>반려동물 전용(Pet) 인프라 조성</td>
+                <td class="text-right">50</td>
+                <td>안전 펜스 설치, 펫 어질리티 장비 및 쉼터</td>
+            </tr>
+            <tr>
+                <td>문화예술 공연 및 아티스트 섭외비</td>
+                <td class="text-right">120</td>
+                <td>개막식 주제 공연 및 지역 예술인 참여 확대</td>
+            </tr>
+            
+            <tr class="row-even">
+                <td class="font-bold text-center" rowspan="2">종합 홍보 마케팅</td>
+                <td>마스코트 캐릭터 개발 및 콘텐츠 제작</td>
+                <td class="text-right">50</td>
+                <td>사전 홍보 마스코트 연계 및 카드뉴스 제작</td>
+            </tr>
+            <tr>
+                <td>다매체 통합 광고 집행</td>
+                <td class="text-right">100</td>
+                <td>방송 광고, 주요 거점 전광판 및 뉴미디어 타깃 광고</td>
+            </tr>
+            
+            <tr class="row-even">
+                <td class="font-bold text-center" rowspan="3">안전 및 교통 관리</td>
+                <td>주요 거점 셔틀버스 확대 운영</td>
+                <td class="text-right">100</td>
+                <td>관람객 수송 다각화 및 교통 체증 방지</td>
+            </tr>
+            <tr>
+                <td>산불 방지 및 사설 안전 요원 배치</td>
+                <td class="text-right">120</td>
+                <td>방화선 구축, 소방 인프라 및 통제 인력</td>
+            </tr>
+            <tr class="row-even">
+                <td>응급 의료 지원 및 임시 보건 부스</td>
+                <td class="text-right">30</td>
+                <td>구급차 상시 대기 및 전문 의료진 현장 배치</td>
+            </tr>
+            
+            <tr>
+                <td class="font-bold text-center">예비비</td>
+                <td>현장 돌발 상황 및 우천·강풍 대비비</td>
+                <td class="text-right">50</td>
+                <td>기상 악화 시 대체 프로그램 전환 비용 예치</td>
+            </tr>
+            
+            <tr class="row-total">
+                <td class="text-center" colspan="2">합 계</td>
+                <td class="text-right">1,400</td>
+                <td class="text-left">일반회계 전액 집행 (14억 원)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>5. 기대 효과</h1>
+    <ul>
+        <li class="bullet-l1">글로벌 디지털·전통 융합형 대표 축제로서의 브랜드 위상 강화</li>
+        <li class="bullet-l1">야간 체류형 관광 상품 연계를 통한 관내 숙박, 음식점 등 골목상권 경제 활성화 증대</li>
+        <li class="bullet-l1">가족 친화 및 펫 프렌들리 인프라의 모범적 선례 구축으로 포용적 제주 관광 만족도 제고</li>
+    </ul>
+
+</div>
+
+</body>
+</html>
+"""
+
+# HTML 파일로 저장
+file_name = "2027_jeju_fire_festival_plan.html"
+with open(file_name, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"File saved successfully: {file_name}")
